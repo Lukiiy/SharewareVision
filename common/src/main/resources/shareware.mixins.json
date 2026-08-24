@@ -5,7 +5,9 @@
   "compatibilityLevel": "JAVA_25",
   "mixins": [],
   "client": [
-    "ChunkedSampleMixin"
+    "CameraMixin",
+    "ChunkedSampleMixin",
+    "EntityRendererMixin"
   ],
   "server": [],
   "injectors": {
