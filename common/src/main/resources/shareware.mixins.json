@@ -9,8 +9,8 @@
     "ChunkedSampleMixin",
     "EntityRendererMixin",
     "ItemInHandMixin",
-    "MinecraftMixin",
-    "RendererMixin"
+    "RendererMixin",
+    "TitleScreenMixin"
   ],
   "server": [],
   "injectors": {
