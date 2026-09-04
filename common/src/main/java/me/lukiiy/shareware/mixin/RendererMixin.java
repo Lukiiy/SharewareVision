@@ -23,7 +23,7 @@ public abstract class RendererMixin {
     @Shadow @Final private CrossFrameResourcePool resourcePool;
 
     @Inject(method = "render", at = @At("TAIL"))
-    private void shareware$apply(DeltaTracker deltaTracker, boolean renderLevel, CallbackInfo ci) {
+    private void shareware$apply(DeltaTracker deltaTracker, boolean advanceGameTime, CallbackInfo ci) {
         if (Constants.shader == null) return;
 
         Window window = Minecraft.getInstance().getWindow();
