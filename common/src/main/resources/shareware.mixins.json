@@ -9,6 +9,7 @@
     "ChunkedSampleMixin",
     "EntityRendererMixin",
     "ItemInHandMixin",
+    "LivingEntityRendererMixin",
     "MinecraftMixin",
     "RendererMixin"
   ],
