@@ -16,7 +16,7 @@ val neoforgeVer = rootProject.property("neoforgeVer").toString()
 val neoforgeVerRange = rootProject.property("neoforgeLoaderVerRange").toString()
 val credits = rootProject.property("credits").toString()
 
-base.archivesName.set("$modId-${project.name}-$minecraftVersion")
+base.archivesName.set("$modId-${project.name}_$minecraftVersion")
 
 val genDocs = rootProject.findProperty("enableJavadoc")?.toString()?.toBoolean() ?: false
 
