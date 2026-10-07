@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(AvatarRenderer.class)
 public class AvatarRendererMixin<E extends Avatar & ClientAvatarEntity> {
     @Unique
-    private static final float CUTOFF = 50f;
+    private static final float shareware$CUTOFF = 50f;
 
     @Inject(method = "extractRenderState(Lnet/minecraft/world/entity/Avatar;Lnet/minecraft/client/renderer/entity/state/AvatarRenderState;F)V", at = @At("TAIL"))
     private void shareware$localPlayer(E entity, AvatarRenderState state, float partialTicks, CallbackInfo ci) {
@@ -24,7 +24,7 @@ public class AvatarRendererMixin<E extends Avatar & ClientAvatarEntity> {
         if (player == null || state.id != player.getId()) return;
 
         state.bodyRot = 0f;
-        state.yRot = Mth.clamp(Mth.wrapDegrees(state.bodyRot + state.yRot), -CUTOFF, CUTOFF);
+        state.yRot = Mth.clamp(Mth.wrapDegrees(state.bodyRot + state.yRot), -shareware$CUTOFF, shareware$CUTOFF);
         if (!state.isFallFlying && state.swimAmount <= 0f) state.xRot = -state.xRot;
     }
 }
