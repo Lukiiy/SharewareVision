@@ -16,7 +16,7 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-          "me.lukiiy.shareware.ExampleMod"
+          "me.lukiiy.shareware.SharewareVision"
         ]
     },
     "mixins": [
