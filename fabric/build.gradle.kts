@@ -6,12 +6,10 @@ plugins {
 val modId = rootProject.property("modId").toString()
 val minecraftVersion = rootProject.property("minecraftVer").toString()
 val fabricLoaderVer = rootProject.property("fabricLoaderVer").toString()
-val fabricVer = rootProject.property("fabricVer").toString()
 
 dependencies {
     minecraft("com.mojang:minecraft:$minecraftVersion")
     implementation("net.fabricmc:fabric-loader:$fabricLoaderVer")
-    implementation("net.fabricmc.fabric-api:fabric-api:$fabricVer")
 }
 
 loom {
