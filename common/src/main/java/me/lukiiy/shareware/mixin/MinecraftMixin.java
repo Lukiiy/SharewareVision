@@ -13,7 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
     @Inject(method = "onGameLoadFinished", at = @At("TAIL"))
-    private void shareware$s(GameLoadCookie cookie, CallbackInfo ci) {
-        Constants.shader = Minecraft.getInstance().getShaderManager().getPostChain(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "shareware"), LevelTargetBundle.MAIN_TARGETS);
+    private void shareware$reload(GameLoadCookie cookie, CallbackInfo ci) {
+        Minecraft.getInstance().getShaderManager().getPostChain(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "shareware"), LevelTargetBundle.MAIN_TARGETS);
+
+        Constants.shaderFail = false;
     }
 }

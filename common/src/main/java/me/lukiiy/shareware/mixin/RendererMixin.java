@@ -24,20 +24,17 @@ import java.util.Set;
 
 @Mixin(value = GameRenderer.class, priority = 10000)
 public abstract class RendererMixin {
-    @Unique
-    private static final Identifier POST_ID = Identifier.fromNamespaceAndPath(Constants.MOD_ID, "shareware");
-
     @Shadow public abstract RenderTarget mainRenderTarget();
     @Shadow @Final private CrossFrameResourcePool resourcePool;
 
     @Inject(method = "render", at = @At("TAIL"))
     private void shareware$apply(DeltaTracker deltaTracker, boolean advanceGameTime, CallbackInfo ci) {
-        if (Constants.shader == null) return;
+        if (Constants.shaderFail) return;
 
         Window window = Minecraft.getInstance().getWindow();
 
         try {
-            PostChain chain = Minecraft.getInstance().getShaderManager().getPostChain(POST_ID, LevelTargetBundle.MAIN_TARGETS);
+            PostChain chain = Minecraft.getInstance().getShaderManager().getPostChain(Constants.POST_ID, LevelTargetBundle.MAIN_TARGETS);
             if (chain == null) return;
 
             FrameGraphBuilder frameGraph = new FrameGraphBuilder();
@@ -45,7 +42,9 @@ public abstract class RendererMixin {
             chain.addToFrame(frameGraph, window.getWidth(), window.getHeight(), PostChain.TargetBundle.of(PostChain.MAIN_TARGET_ID, frameGraph.importExternal("main", mainRenderTarget())));
             frameGraph.execute(resourcePool);
         } catch (Throwable e) {
-            Constants.LOG.error("Whoops! ", e);
+            Constants.shaderFail = true;
+
+            Constants.LOG.error("Shader failure: ", e);
         }
     }
 }
