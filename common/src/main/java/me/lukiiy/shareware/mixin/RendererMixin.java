@@ -9,16 +9,24 @@ import me.lukiiy.shareware.Constants;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.LevelTargetBundle;
 import net.minecraft.client.renderer.PostChain;
+import net.minecraft.resources.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(GameRenderer.class)
+import java.util.Set;
+
+@Mixin(value = GameRenderer.class, priority = 10000)
 public abstract class RendererMixin {
+    @Unique
+    private static final Identifier POST_ID = Identifier.fromNamespaceAndPath(Constants.MOD_ID, "shareware");
+
     @Shadow public abstract RenderTarget mainRenderTarget();
     @Shadow @Final private CrossFrameResourcePool resourcePool;
 
@@ -27,11 +35,17 @@ public abstract class RendererMixin {
         if (Constants.shader == null) return;
 
         Window window = Minecraft.getInstance().getWindow();
-        FrameGraphBuilder frameGraph = new FrameGraphBuilder();
-        ResourceHandle<RenderTarget> mainHandle = frameGraph.importExternal("main", mainRenderTarget());
-        PostChain.TargetBundle targetBundle = PostChain.TargetBundle.of(PostChain.MAIN_TARGET_ID, mainHandle);
 
-        Constants.shader.addToFrame(frameGraph, window.getWidth(), window.getHeight(), targetBundle);
-        frameGraph.execute(resourcePool);
+        try {
+            PostChain chain = Minecraft.getInstance().getShaderManager().getPostChain(POST_ID, LevelTargetBundle.MAIN_TARGETS);
+            if (chain == null) return;
+
+            FrameGraphBuilder frameGraph = new FrameGraphBuilder();
+
+            chain.addToFrame(frameGraph, window.getWidth(), window.getHeight(), PostChain.TargetBundle.of(PostChain.MAIN_TARGET_ID, frameGraph.importExternal("main", mainRenderTarget())));
+            frameGraph.execute(resourcePool);
+        } catch (Throwable e) {
+            Constants.LOG.error("Whoops! ", e);
+        }
     }
 }
