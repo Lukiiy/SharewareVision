@@ -13,7 +13,7 @@
     },
     "license": "${license}",
     "icon": "${modId}.png",
-    "environment": "*",
+    "environment": "client",
     "entrypoints": {
         "main": [
           "me.lukiiy.shareware.SharewareVision"
