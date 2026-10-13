@@ -1,10 +1,10 @@
 package me.lukiiy.shareware;
 
-import net.fabricmc.api.ModInitializer;
+import net.fabricmc.api.ClientModInitializer;
 
-public class SharewareVision implements ModInitializer {
+public class SharewareVision implements ClientModInitializer {
     @Override
-    public void onInitialize() {
+    public void onInitializeClient() {
         CommonClass.init();
     }
 }

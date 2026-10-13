@@ -15,7 +15,7 @@
     "icon": "${modId}.png",
     "environment": "client",
     "entrypoints": {
-        "main": [
+        "client": [
           "me.lukiiy.shareware.SharewareVision"
         ]
     },
