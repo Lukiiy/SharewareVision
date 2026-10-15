@@ -1,8 +1,8 @@
-#version 330
+#version 450
 
 uniform sampler2D InSampler;
 
-in vec2 texCoord;
+layout(location = 0) in vec2 texCoord;
 
 layout(std140) uniform SamplerInfo {
     vec2 OutSize;
@@ -17,7 +17,7 @@ layout(std140) uniform OverlayConfig {
     vec3 BlueMatrix;
 };
 
-out vec4 fragColor;
+layout(location = 0) out vec4 fragColor;
 
 void main(){
     vec2 actualMosaicSize = InSize / MosaicSize;
