@@ -27,8 +27,8 @@ public abstract class LivingEntityRendererMixin<S extends LivingEntityRenderStat
 
         state.bodyRot = cam.yRot() + (float) Math.floor((state.bodyRot - cam.yRot()) / 45) * 45;
 
-        poseStack.mulPose(new Quaternionf().rotateY(yaw));
+        poseStack.rotate(yawRot);
         poseStack.last().pose().scale(1, 1, .01f);
-        poseStack.mulPose(new Quaternionf(yawRot).conjugate());
+        poseStack.rotate(yawRot.conjugate());
     }
 }
