@@ -9,7 +9,7 @@
     "CameraMixin",
     "ChunkedSampleMixin",
     "EntityRendererMixin",
-    "ItemInHandMixin",
+    "LevelRendererMixin",
     "LivingEntityRendererMixin",
     "MinecraftMixin",
     "RendererMixin"
