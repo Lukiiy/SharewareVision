@@ -83,4 +83,42 @@ public class Config {
             return fallback;
         }
     }
+
+    public <T> Key<T> key(String name, T defaultValue) {
+        return new Key<>(name, defaultValue);
+    }
+
+    public final class Key<T> {
+        public final String key;
+        public final T defaultValue;
+        public boolean reloadable;
+
+        private Key(String key, T defaultValue) {
+            this.key = key;
+            this.defaultValue = defaultValue;
+
+            Config.this.setIfAbsent(key, defaultValue);
+        }
+
+        public String name() {
+            return key;
+        }
+
+        public T defaultValue() {
+            return defaultValue;
+        }
+
+        public T get() {
+            return Config.this.get(key, defaultValue);
+        }
+
+        public void set(T value) {
+            Config.this.set(key, value);
+        }
+
+        public Key<T> setReloadable() {
+            this.reloadable = true;
+            return this;
+        }
+    }
 }
