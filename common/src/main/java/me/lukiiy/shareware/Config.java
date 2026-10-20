@@ -11,7 +11,7 @@ import java.util.Properties;
 public class Config {
     private final Properties properties = new Properties();
     private final Path path;
-    private final String modName;
+    public final String modName;
 
     public Config(String fileName, String modName) {
         Path confDir = Services.PLATFORM.configDir();
