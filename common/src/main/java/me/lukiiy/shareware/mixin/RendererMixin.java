@@ -4,7 +4,6 @@ import com.mojang.blaze3d.framegraph.FrameGraphBuilder;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.resource.CrossFrameResourcePool;
-import com.mojang.blaze3d.resource.ResourceHandle;
 import me.lukiiy.shareware.Common;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
