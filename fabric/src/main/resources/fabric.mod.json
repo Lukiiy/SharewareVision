@@ -16,7 +16,10 @@
     "environment": "client",
     "entrypoints": {
         "client": [
-          "me.lukiiy.shareware.SharewareVision"
+            "me.lukiiy.shareware.SharewareVision"
+        ],
+        "modmenu": [
+            "me.lukiiy.shareware.platform.ModMenuHook"
         ]
     },
     "mixins": [
@@ -26,6 +29,9 @@
     "depends": {
         "fabricloader": ">=${fabricLoaderVer}",
         "minecraft": ">=${minecraftVer}"
+    },
+    "suggests": {
+        "modmenu": ">=${modmenuVer}"
     }
 }
   

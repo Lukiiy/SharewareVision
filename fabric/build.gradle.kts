@@ -6,10 +6,16 @@ plugins {
 val modId = rootProject.property("modId").toString()
 val minecraftVersion = rootProject.property("minecraftVer").toString()
 val fabricLoaderVer = rootProject.property("fabricLoaderVer").toString()
+val modMenuVer = project.property("modmenuVer")!!
+
+repositories {
+    maven("https://maven.terraformersmc.com/")
+}
 
 dependencies {
     minecraft("com.mojang:minecraft:$minecraftVersion")
     implementation("net.fabricmc:fabric-loader:$fabricLoaderVer")
+    compileOnly("com.terraformersmc:modmenu:${modMenuVer}")
 }
 
 loom {

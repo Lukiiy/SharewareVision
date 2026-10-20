@@ -14,6 +14,7 @@ val license = rootProject.property("license").toString()
 val neoforgeVer = rootProject.property("neoforgeVer").toString()
 val neoforgeVerRange = rootProject.property("neoforgeLoaderVerRange").toString()
 val credits = rootProject.property("credits").toString()
+val modmenuVer = rootProject.property("modmenuVer").toString()
 
 base.archivesName.set("$modId-${project.name}_$minecraftVersion")
 
@@ -43,7 +44,7 @@ tasks {
     }
 
     processResources {
-        val expandProps = mapOf("version" to version, "group" to project.group, "minecraftVer" to minecraftVersion, "minecraftVerRange" to minecraftVersionRange, "fabricLoaderVer" to fabricLoaderVer, "modName" to modName, "modAuthor" to modAuthor, "modId" to modId, "license" to license, "description" to (project.description ?: ""), "neoforgeVer" to neoforgeVer, "neoforgeLoaderVerRange" to neoforgeVerRange, "credits" to credits, "javaVer" to javaVersion)
+        val expandProps = mapOf("version" to version, "group" to project.group, "minecraftVer" to minecraftVersion, "minecraftVerRange" to minecraftVersionRange, "fabricLoaderVer" to fabricLoaderVer, "modName" to modName, "modAuthor" to modAuthor, "modId" to modId, "license" to license, "description" to (project.description ?: ""), "neoforgeVer" to neoforgeVer, "neoforgeLoaderVerRange" to neoforgeVerRange, "credits" to credits, "javaVer" to javaVersion, "modmenuVer" to modmenuVer)
 
         val jsonExpandProps = expandProps.mapValues { (_, value) ->
             if (value is String) value.replace("\n", "\\n") else value
