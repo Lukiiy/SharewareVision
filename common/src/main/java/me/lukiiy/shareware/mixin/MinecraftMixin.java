@@ -1,6 +1,6 @@
 package me.lukiiy.shareware.mixin;
 
-import me.lukiiy.shareware.Constants;
+import me.lukiiy.shareware.Common;
 import net.minecraft.client.GameLoadCookie;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelTargetBundle;
@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MinecraftMixin {
     @Inject(method = "onGameLoadFinished", at = @At("TAIL"))
     private void shareware$reload(GameLoadCookie cookie, CallbackInfo ci) {
-        Minecraft.getInstance().getShaderManager().getPostChain(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "shareware"), LevelTargetBundle.MAIN_TARGETS);
+        Minecraft.getInstance().getShaderManager().getPostChain(Identifier.fromNamespaceAndPath(Common.MOD_ID, "shareware"), LevelTargetBundle.MAIN_TARGETS);
 
-        Constants.shaderFail = false;
+        Common.shaderFail = false;
     }
 }

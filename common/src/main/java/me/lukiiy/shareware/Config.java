@@ -19,7 +19,7 @@ public class Config {
         try {
             Files.createDirectories(confDir);
         } catch (IOException e) {
-            Constants.LOG.error(e.getMessage());
+            Common.LOG.error(e.getMessage());
         }
 
         this.path = confDir.resolve(fileName + ".properties");
@@ -37,7 +37,7 @@ public class Config {
         try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
             properties.load(reader);
         } catch (IOException e) {
-            Constants.LOG.error(e.getMessage());
+            Common.LOG.error(e.getMessage());
         }
     }
 
@@ -45,7 +45,7 @@ public class Config {
         try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
             properties.store(writer, modName + " Config");
         } catch (IOException e) {
-            Constants.LOG.error(e.getMessage());
+            Common.LOG.error(e.getMessage());
         }
     }
 

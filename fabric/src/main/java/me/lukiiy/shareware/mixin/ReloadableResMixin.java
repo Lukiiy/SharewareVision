@@ -1,6 +1,6 @@
 package me.lukiiy.shareware.mixin;
 
-import me.lukiiy.shareware.Constants;
+import me.lukiiy.shareware.Common;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.PackLocationInfo;
@@ -25,8 +25,8 @@ import java.util.Optional;
 public class ReloadableResMixin {
     @Shadow @Final private PackType type;
 
-    @Unique private static final Path PATH = FabricLoader.getInstance().getModContainer(Constants.MOD_ID).flatMap(container -> container.findPath("fabric.mod.json")).map(Path::getParent).orElse(null);
-    @Unique private static final PackResources PACK_RES = PATH != null ? new PathPackResources(new PackLocationInfo(Constants.MOD_ID, Component.literal(Constants.MOD_ID + " Resources"), PackSource.BUILT_IN, Optional.empty()), PATH) : null;
+    @Unique private static final Path PATH = FabricLoader.getInstance().getModContainer(Common.MOD_ID).flatMap(container -> container.findPath("fabric.mod.json")).map(Path::getParent).orElse(null);
+    @Unique private static final PackResources PACK_RES = PATH != null ? new PathPackResources(new PackLocationInfo(Common.MOD_ID, Component.literal(Common.MOD_ID + " Resources"), PackSource.BUILT_IN, Optional.empty()), PATH) : null;
 
     @ModifyVariable(method = "createReload", at = @At("HEAD"), argsOnly = true, name = "resourcePacks")
     private List<PackResources> shareware$load(List<PackResources> resourcePacks) {

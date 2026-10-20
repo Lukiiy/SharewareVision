@@ -5,7 +5,7 @@ import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.resource.CrossFrameResourcePool;
 import com.mojang.blaze3d.resource.ResourceHandle;
-import me.lukiiy.shareware.Constants;
+import me.lukiiy.shareware.Common;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
@@ -29,12 +29,12 @@ public abstract class RendererMixin {
 
     @Inject(method = "render", at = @At("TAIL"))
     private void shareware$apply(DeltaTracker deltaTracker, boolean advanceGameTime, CallbackInfo ci) {
-        if (Constants.shaderFail) return;
+        if (Common.shaderFail) return;
 
         Window window = Minecraft.getInstance().getWindow();
 
         try {
-            PostChain chain = Minecraft.getInstance().getShaderManager().getPostChain(Constants.POST_ID, LevelTargetBundle.MAIN_TARGETS);
+            PostChain chain = Minecraft.getInstance().getShaderManager().getPostChain(Common.POST_ID, LevelTargetBundle.MAIN_TARGETS);
             if (chain == null) return;
 
             FrameGraphBuilder frameGraph = new FrameGraphBuilder();
@@ -42,9 +42,9 @@ public abstract class RendererMixin {
             chain.addToFrame(frameGraph, window.getWidth(), window.getHeight(), PostChain.TargetBundle.of(PostChain.MAIN_TARGET_ID, frameGraph.importExternal("main", mainRenderTarget())));
             frameGraph.execute(resourcePool);
         } catch (Throwable e) {
-            Constants.shaderFail = true;
+            Common.shaderFail = true;
 
-            Constants.LOG.error("Shader failure: ", e);
+            Common.LOG.error("Shader failure: ", e);
         }
     }
 }
