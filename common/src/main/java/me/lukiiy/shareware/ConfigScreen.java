@@ -58,14 +58,18 @@ public class ConfigScreen extends Screen {
     }
 
     private class ConfigList extends ContainerObjectSelectionList<ConfigList.Entry> {
-        public final Font font;
+        abstract static class Entry extends ContainerObjectSelectionList.Entry<Entry> {}
 
         public ConfigList() {
             super(ConfigScreen.this.minecraft, ConfigScreen.this.width, layout.getContentHeight(), layout.getHeaderHeight(), 24);
+        }
 
-            font = ConfigScreen.this.font;
+        public void addBooleanOption(Config.Key<Boolean> key) {
+            this.addEntry(new BooleanEntry(key));
+        }
 
-            // entries and whatnot
+        public void addFloatOption(Config.Key<Float> key, float min, float max) {
+            this.addEntry(new FloatEntry(key, min, max));
         }
 
         @Override
@@ -73,99 +77,69 @@ public class ConfigScreen extends Screen {
             return 310;
         }
 
-        private <T> EditBox createEditBox(Config.Key<T> key) {
-            EditBox box = new EditBox(font, 0, 0, 80, 20, Component.literal(key.key));
-            T value = key.get();
+        class BooleanEntry extends Entry {
+            private final Checkbox box;
+            private final Component label;
 
-            box.setMaxLength(512);
-            box.setValue(value == null ? "" : value.toString());
-
-            return box;
-        }
-
-        private record StaticNarration(Component text) implements NarratableEntry {
-            @Override
-            public NarrationPriority narrationPriority() {
-                return NarrationPriority.HOVERED;
-            }
-
-            @Override
-            public void updateNarration(NarrationElementOutput output) {
-                output.add(NarratedElementType.TITLE, text);
-            }
-        }
-
-        abstract class Entry extends ContainerObjectSelectionList.Entry<Entry> {
-            protected final Config.Key<?> key;
-            protected final List<AbstractWidget> children = Lists.newArrayList();
-            protected Component label;
-            protected final StaticNarration labelNarration;
-            protected AbstractWidget widget;
-
-            protected Entry(Config.Key<?> key, AbstractWidget widget) {
-                this.key = key;
-                this.label = key == null ? null : Component.translatable("lysten.setting." + key.key);
-                this.labelNarration = label == null ? null : new StaticNarration(label);
-
-                setWidget(widget);
-            }
-
-            protected void setWidget(AbstractWidget widget) {
-                this.widget = widget;
-
-                if (widget != null) {
-                    if (key != null && !key.reloadable) widget.setTooltip(Tooltip.create(Component.translatable("lysten.config.nonReloadable")));
-                    if (!(widget instanceof CycleButton<?>)) widget.setMessage(label);
-
-                    children.add(widget);
-                }
+            public BooleanEntry(Config.Key<Boolean> key) {
+                this.label = Component.literal(key.key);
+                this.box = Checkbox.builder(Component.empty(), font).selected(key.get()).onValueChange((_, v) -> key.set(v)).build();
             }
 
             @Override
             public List<? extends GuiEventListener> children() {
-                return children;
+                return List.of(box);
             }
 
             @Override
             public List<? extends NarratableEntry> narratables() {
-                return widget != null ? children : (labelNarration != null ? List.of(labelNarration) : List.of());
+                return List.of(box);
             }
 
             @Override
             public void extractContent(GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float a) {
-                if (label != null) graphics.text(ConfigList.this.font, label, getContentX(), getContentY() + 6, -1);
+                graphics.text(font, label, getContentX(), getContentY() + 6, -1);
 
-                if (widget != null) {
-                    widget.setX(getContentRight() - widget.getWidth());
-                    widget.setY(getContentY());
-                    widget.extractRenderState(graphics, mouseX, mouseY, a);
-                }
-            }
-        }
-
-        class BooleanEntry extends Entry {
-            public BooleanEntry(Config.Key<Boolean> key) {
-                super(key, Checkbox.builder(Component.empty(), font).selected(key.get()).onValueChange((b, v) -> key.set(v)).build());
+                box.setX(getContentRight() - box.getWidth());
+                box.setY(getContentY() + (24 - box.getHeight()) / 2);
+                box.extractRenderState(graphics, mouseX, mouseY, a);
             }
         }
 
         class FloatEntry extends Entry {
-            public FloatEntry(Config.Key<Float> key, float min, float max) {
-                super(key, createEditBox(key));
+            private final EditBox box;
+            private final Component label;
 
-                EditBox box = (EditBox) widget;
+            public FloatEntry(Config.Key<Float> key, float min, float max) {
+                this.label = Component.literal(key.key);
+                this.box = new EditBox(font, 0, 0, 80, 20, Component.literal(key.key));
 
                 box.setValue(String.valueOf(key.get()));
-                box.setResponder(text -> {
-                    if (text.isEmpty() || text.equals(".")) return;
-
+                box.setMaxLength(32);
+                box.setResponder(it -> {
                     try {
-                        float parsed = Float.parseFloat(text);
-                        float clamped = Math.clamp(parsed, min, max);
-
-                        key.set(clamped);
+                        if (!it.isEmpty() && !it.equals(".")) key.set(Math.clamp(Float.parseFloat(it), min, max));
                     } catch (NumberFormatException _) {}
                 });
+            }
+
+            @Override
+            public List<? extends GuiEventListener> children() {
+                return List.of(box);
+            }
+
+            @Override
+            public List<? extends NarratableEntry> narratables() {
+                return List.of(box);
+            }
+
+            @Override
+            public void extractContent(GuiGraphicsExtractor graphics, int mouseX, int mouseY, boolean hovered, float a) {
+                graphics.text(font, label, getContentX(), getContentY() + 6, -1);
+
+                box.setX(getContentRight() - box.getWidth());
+                box.setY(getContentY());
+                box.extractRenderState(graphics, mouseX, mouseY, a);
             }
         }
     }
