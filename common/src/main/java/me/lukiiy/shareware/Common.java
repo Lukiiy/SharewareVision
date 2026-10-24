@@ -14,6 +14,7 @@ public class Common {
     public static final Config.Key<Boolean> choppyCam = config.key("choppyCam", true);
     public static final Config.Key<Boolean> limitedRotPlayer = config.key("staticPlayer", true);
     public static final Config.Key<Boolean> billboardMobs = config.key("billboardMobs", true);
+    public static final Config.Key<Boolean> crunchSoundEngine = config.key("crunchyAudio", true);
 
     public static boolean shaderFail = true;
 }

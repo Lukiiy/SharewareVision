@@ -2,6 +2,7 @@ package me.lukiiy.shareware.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import me.lukiiy.shareware.Common;
 import net.minecraft.client.sounds.ChunkedSampleByteBuf;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -16,6 +17,8 @@ public abstract class ChunkedSampleMixin {
 
     @WrapOperation(method = "accept", at = @At(value = "INVOKE", target = "Ljava/nio/ByteBuffer;putShort(S)Ljava/nio/ByteBuffer;"))
     private ByteBuffer shareware$filter(ByteBuffer instance, short i, Operation<ByteBuffer> original) {
+        if (!Common.crunchSoundEngine.get()) return original.call(instance, i);
+
         if (shareware$counter == 0) {
             shareware$heldSample = (short) (i & 0xFFFC);
             shareware$counter = 15;
