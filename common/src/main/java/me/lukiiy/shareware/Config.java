@@ -96,8 +96,6 @@ public class Config {
         private Key(String key, T defaultValue) {
             this.key = key;
             this.defaultValue = defaultValue;
-
-            Config.this.setIfAbsent(key, defaultValue);
         }
 
         public String name() {
