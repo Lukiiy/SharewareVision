@@ -48,11 +48,6 @@ public class ConfigScreen extends Screen {
     }
 
     @Override
-    public boolean isPauseScreen() {
-        return before != null && before.isPauseScreen();
-    }
-
-    @Override
     public void onClose() {
         if (before != null) minecraft.setScreenAndShow(before);
     }
