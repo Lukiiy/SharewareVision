@@ -19,6 +19,21 @@
                         "value": 2.0
                     },
                     {
+                        "name": "Contrast",
+                        "type": "float",
+                        "value": 1.2
+                    },
+                    {
+                        "name": "Saturation",
+                        "type": "float",
+                        "value": 2.0
+                    },
+                    {
+                        "name": "Posterize",
+                        "type": "float",
+                        "value": 7.0
+                    },
+                    {
                         "name": "RedMatrix",
                         "type": "vec3",
                         "value": [1.0, 0.0, 0.0]
