@@ -10,6 +10,7 @@ public class Common {
     public static final Logger LOG = LoggerFactory.getLogger(MOD_NAME);
     public static final Identifier POST_ID = Identifier.fromNamespaceAndPath(MOD_ID, "shareware");
     public static final Config config = new Config("shareware", "Shareware Vision");
+
     public static final Config.Key<Boolean> choppyCam = config.key("choppyCam", true);
     public static final Config.Key<Boolean> limitedRotPlayer = config.key("staticPlayer", true);
     public static final Config.Key<Boolean> billboardMobs = config.key("billboardMobs", true);
