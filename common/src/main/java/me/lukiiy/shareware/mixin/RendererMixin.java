@@ -7,19 +7,13 @@ import com.mojang.blaze3d.resource.CrossFrameResourcePool;
 import me.lukiiy.shareware.Common;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.LevelTargetBundle;
-import net.minecraft.client.renderer.PostChain;
-import net.minecraft.resources.Identifier;
+import net.minecraft.client.renderer.*;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.Set;
 
 @Mixin(value = GameRenderer.class, priority = 10000)
 public abstract class RendererMixin {
